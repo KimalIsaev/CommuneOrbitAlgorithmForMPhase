@@ -1,11 +1,12 @@
 import itertools
-from lib import algorithm
+from get_matricies_from_given_constants import algorithm
 from sympy import *
 from pathlib import Path
 from operator import mul
 from math import factorial
 from functools import reduce
 import sys
+import numpy as np
 init_printing(use_unicode=False)
 
 def sum_checker(M):
@@ -203,15 +204,57 @@ def is_r_to_S_zero(r, S):
     return (simplify(r*S) == zeros(*shape(r)))
 
 def is_formula_right(m, n):
-    var = get_all_math_variables(n)
+    var = get_all_math_variables(m)
     states = get_list_of_states(n, m)
-    LFL = create_phase_execution_LFL(n)
-    local = create_phase_execution_local_arg_maker(n)    
+    LFL = create_phase_execution_LFL(m)
+    local = create_phase_execution_local_arg_maker(m)
     scheme = solve_phase_execution(states, var, LFL, local)
     x = symbols("x")
     r = get_r(x, states, var)
     S = get_S_from_scheme(x, scheme, var)
     return is_r_to_S_zero(r,S)
+
+def get_substitutions_for_matricies(var, lam, qs, mus, r0, r2):
+    fixed_subs = [
+        (var["lam"], lam),
+        (var["r0"], r0),
+        (var["r2"], r2)]    
+    q_subs = list(zip(var["q"], qs))
+    mu_subs = list(zip(var["u"], mus))
+    return fixed_subs + q_subs + mu_subs
+
+def get_sym_matricies(scheme, sigma):
+    A = scheme[1][0] - get_D(scheme[1][0], scheme[2][0])
+    B = scheme[2][0]
+    K = scheme[0][1]/sigma
+    I = get_D(K)
+    return A, B, K, I
+
+def sympy_matrix_to_an_array(m, s):
+    return np.array(m.subs(s)).astype(np.float64)
+
+def get_ABKI(m, n, lam, qs, mus, r0, r2):
+    #print(qs)
+    #print(mus)
+    var = get_all_math_variables(m)
+    #print(var) 
+    states = get_list_of_states(m, n) 
+    #print(states)
+    LFL = create_phase_execution_LFL(m)
+    local = create_phase_execution_local_arg_maker(m)
+    scheme = solve_phase_execution(states, var, LFL, local)
+    #print(scheme)
+    substitutions_for_matricies = get_substitutions_for_matricies(
+        var, lam, qs, mus, r0, r2);
+    A_sym, B_sym, K_sym, I_sym = get_sym_matricies(scheme, var["sigma"])
+    #print(A_sym)
+    print(B_sym)
+    #print(substitutions_for_matricies)
+    A = sympy_matrix_to_an_array(A_sym, substitutions_for_matricies)
+    B = sympy_matrix_to_an_array(B_sym, substitutions_for_matricies)
+    K = sympy_matrix_to_an_array(K_sym, substitutions_for_matricies)
+    I = sympy_matrix_to_an_array(I_sym, substitutions_for_matricies)
+    return A, B, K, I
 
 def main(m, n):
     for i in m:
@@ -222,3 +265,4 @@ if __name__ == "__main__":
     main(
         range(int(sys.argv[1]), int(sys.argv[2])),
         range(int(sys.argv[3]), int(sys.argv[4])))
+
