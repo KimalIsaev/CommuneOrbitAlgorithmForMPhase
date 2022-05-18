@@ -125,8 +125,8 @@ def create_phase_execution_LFL(M):
     def exit_zero(q, y, z, arg_dict, temp_arg_dict):
         k = temp_arg_dict['i_minus']
         uk = arg_dict['u'][k]
-        r0 = arg_dict['r0']
-        return y[k]*uk*r0
+        r2 = arg_dict['r2']
+        return y[k]*uk*r2
 
     def again_checker(q, y, z, const_arg, arg):
         right_state_change = arg['is_minus'] and arg['is_plus']
@@ -233,6 +233,20 @@ def get_sym_matricies(scheme, sigma):
 def sympy_matrix_to_an_array(m, s):
     return np.array(m.subs(s)).astype(np.float64)
 
+def get_sym_ABKI(m, n):
+    #print(qs)
+    #print(mus)
+    var = get_all_math_variables(m)
+    #print(var) 
+    states = get_list_of_states(m, n) 
+    #print(states)
+    LFL = create_phase_execution_LFL(m)
+    local = create_phase_execution_local_arg_maker(m)
+    scheme = solve_phase_execution(states, var, LFL, local)
+    #print(scheme)
+    A_sym, B_sym, K_sym, I_sym = get_sym_matricies(scheme, var["sigma"])
+    return A_sym, B_sym, K_sym, I_sym
+
 def get_ABKI(m, n, lam, qs, mus, r0, r2):
     #print(qs)
     #print(mus)
@@ -248,7 +262,7 @@ def get_ABKI(m, n, lam, qs, mus, r0, r2):
         var, lam, qs, mus, r0, r2);
     A_sym, B_sym, K_sym, I_sym = get_sym_matricies(scheme, var["sigma"])
     #print(A_sym)
-    print(B_sym)
+    #print(B_sym)
     #print(substitutions_for_matricies)
     A = sympy_matrix_to_an_array(A_sym, substitutions_for_matricies)
     B = sympy_matrix_to_an_array(B_sym, substitutions_for_matricies)

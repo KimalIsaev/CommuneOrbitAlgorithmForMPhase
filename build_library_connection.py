@@ -17,7 +17,9 @@ C_FILE = '''
 FFI_BUILDER.cdef(HEADER)
 FFI_BUILDER.set_source(C_FILE_NAME, C_FILE, 
     libraries=["four_matricies_to_diffusion_asymptotic"],
-    library_dirs=["./"])
+    library_dirs=["FourMatriciesToDiffusionAsymptotic"],
+    include_dirs=["FourMatriciesToDiffusionAsymptotic"]
+)
 
 if __name__ == "__main__":
     FFI_BUILDER.compile(verbose=True)
