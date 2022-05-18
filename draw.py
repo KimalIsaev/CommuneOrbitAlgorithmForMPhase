@@ -11,10 +11,8 @@ def from_filename_to_list_of_lists(filename):
         return list_of_csv
 
 not_transposed = from_filename_to_list_of_lists(Path(sys.argv[1]))
-print(not_transposed)
 to_draw = list(map(lambda x:list(map(float, x)),
         zip(*not_transposed)))
-print(to_draw)
 percision = 1
 if (len(sys.argv) == 4):
     percision = float(sys.argv[3])
