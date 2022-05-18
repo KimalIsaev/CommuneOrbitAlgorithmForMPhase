@@ -1,4 +1,4 @@
-parent_dir=$(dirname $1) 
+parent_dir=$(dirname $0) 
 r_dir=$parent_dir/r
 a_dir=$parent_dir/a
 b_dir=$parent_dir/b
