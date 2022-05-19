@@ -67,6 +67,10 @@ def write_double_M_array_to_file(a, M, filename):
             f.write(array_to_str(chunk) + "\n")
 
 def main():
+    number_of_fixed_args = 12
+    if (len(argv) < number_of_fixed_args + 1) {
+        return 0;
+    }
     r_filename = sys.argv[1] 
     a_filename = sys.argv[2] 
     b_filename = sys.argv[3] 
@@ -82,7 +86,6 @@ def main():
     sigma_value = float(sys.argv[9])
     r0_value = float(sys.argv[10])
     r2_value = float(sys.argv[11])
-    number_of_fixed_args = 12
     if ((r0_value + r2_value) > 1):
         print("r0 + r2 bigger then one")
         return 1
