@@ -68,7 +68,7 @@ def write_double_M_array_to_file(a, M, filename):
 
 def main():
     number_of_fixed_args = 12
-    if (len(argv) < number_of_fixed_args + 1) {
+    if (len(sys.argv) < number_of_fixed_args + 1) {
         return 0;
     }
     r_filename = sys.argv[1] 
