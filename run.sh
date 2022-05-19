@@ -14,6 +14,9 @@ time=$(date +"%d:%m:%Y_%H:%M:%S")
 i=0
 while read line
 do
+    if [$line = ""]; then
+        exit 0
+    fi;
 	name=$(basename $5 .csv)'_'$i'_'$time
 	python3 $1 $r_dir/$name.txt $a_dir/$name.txt \
         $b_dir/$name.txt $p_dir/$name.txt $x_n $percision $line
