@@ -14,7 +14,7 @@ time=$(date +"%d:%m:%Y_%H:%M:%S")
 i=0
 while read line
 do
-    if [-z "${line}"]; then
+    if [ -z "${line}" ]; then
         exit 0
     fi;
 	name=$(basename $5 .csv)'_'$i'_'$time
