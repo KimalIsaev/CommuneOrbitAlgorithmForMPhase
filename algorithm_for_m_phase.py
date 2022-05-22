@@ -88,9 +88,9 @@ def main():
             return 1
     x_n = int(sys.argv[5])
     percision = int(sys.argv[6])
-    n = int(sys.argv[7])
-    lambda_value = float(sys.argv[8])
-    sigma_value = float(sys.argv[9])
+    sigma_value = float(sys.argv[7])
+    n = int(sys.argv[8])
+    lambda_value = float(sys.argv[9])
     r0_value = float(sys.argv[10])
     r2_value = float(sys.argv[11])
     if ((r0_value + r2_value) > 1):
