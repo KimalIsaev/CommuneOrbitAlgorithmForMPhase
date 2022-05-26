@@ -86,9 +86,9 @@ def main():
         if (float(sf) < 0):
             print("negative argument")
             return 1
-    x_n = int(sys.argv[5])
+    sigma_value = float(sys.argv[5])
     percision = int(sys.argv[6])
-    sigma_value = float(sys.argv[7])
+    x_n = int(sys.argv[7])
     n = int(sys.argv[8])
     lambda_value = float(sys.argv[9])
     r0_value = float(sys.argv[10])

@@ -10,9 +10,8 @@ mkdir -p $r_dir $a_dir $b_dir $p_dir
 
 algorithm=$1
 draw_script=$2
-x_n=$3
-sigma=$4
-param_file=$5
+sigma=$3
+param_file=$4
 
 percision=0.0005
 subdivisions=$(ceildiv $sigma $percision)
@@ -26,7 +25,7 @@ do
     fi;
 	name=$(basename $param_file .csv)'_'$i'_'$time
 	python3 $algorithm $r_dir/$name.txt $a_dir/$name.txt \
-        $b_dir/$name.txt $p_dir/$name.txt $x_n $subdivisions $sigma $line
+        $b_dir/$name.txt $p_dir/$name.txt $sigma $subdivisions $line
 	python3 $draw_script $r_dir/$name.txt $r_dir/$name.png $percision
 	python3 $draw_script $a_dir/$name.txt $a_dir/$name.png $percision
 	python3 $draw_script $b_dir/$name.txt $b_dir/$name.png $percision
