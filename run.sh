@@ -15,8 +15,9 @@ draw_script=$2
 sigma=$3
 param_file=$4
 
-percision=0.0005
-subdivisions=$(ceildiv $sigma $percision)
+min_percision=0.01
+subdivisions=$(ceildiv $sigma $min_percision)
+percision=$(($sigma / $subdivisions))
 
 time=$(date +"%d:%m:%Y_%H:%M:%S")
 i=0
