@@ -125,8 +125,8 @@ def create_phase_execution_LFL(M):
     def exit_zero(q, y, z, arg_dict, temp_arg_dict):
         k = temp_arg_dict['i_minus']
         uk = arg_dict['u'][k]
-        r2 = arg_dict['r2']
-        return y[k]*uk*r2
+        r0 = arg_dict['r0']
+        return y[k]*uk*r0
 
     def again_checker(q, y, z, const_arg, arg):
         right_state_change = arg['is_minus'] and arg['is_plus']
