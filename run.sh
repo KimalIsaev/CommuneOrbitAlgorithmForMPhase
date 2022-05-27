@@ -1,4 +1,6 @@
-ceildiv(){echo "$1 $2" | awk '{print int( ($1/$2) + 1 )}'}
+ceildiv() {
+	echo "$1 $2" | awk '{print int( ($1/$2) + 1 )}'
+}
 
 parent_dir=$(dirname $0) 
 r_dir=$parent_dir/r
