@@ -4,8 +4,10 @@ from sympy import *
 
 def get_D(*lst):
     #print([M*ones(shape(M)[1],1) for M in lst])
-    return diag(*sum([ones(1, shape(M)[1])*M for M in lst], 
-            zeros(1, shape(lst[0])[1])))
+    return diag(*sum([M*ones(shape(M)[1], 1) for M in lst], 
+            zeros(shape(lst[0])[1], 1)))
+#    return diag(*sum([ones(1, shape(M)[1])*M for M in lst], 
+#            zeros(1, shape(lst[0])[1])))
 
 
 def get_diag_matricies(K, C, B):
@@ -30,7 +32,7 @@ def get_matricies_from_J_and_transition(J, transition_intensity_function):
     orbit_changes_matrix = [[transition_intensity_function(x, y)
         for x in J] for y in J]
     K, C, B = tuples_of_2Darray_from_2Darray_of_tuples(orbit_changes_matrix)
-    return Matrix(K), Matrix(C), Matrix(B)
+    return Matrix(K).T, Matrix(C).T, Matrix(B).T
 
 
 def simplify_to_an_array(*lst):
