@@ -16,8 +16,8 @@ sigma=$3
 param_file=$4
 
 min_percision=0.01
-subdivisions=$(ceildiv $sigma $min_percision)
-percision=$(($sigma / $subdivisions))
+#subdivisions=$(ceildiv $sigma $min_percision)
+#percision=$(($sigma / $subdivisions))
 
 time=$(date +"%d:%m:%Y_%H:%M:%S")
 i=0
@@ -28,10 +28,10 @@ do
     fi;
 	name=$(basename $param_file .csv)'_'$i'_'$time
 	python3 $algorithm $r_dir/$name.txt $a_dir/$name.txt \
-        $b_dir/$name.txt $p_dir/$name.txt $sigma $subdivisions $line
-	python3 $draw_script $r_dir/$name.txt $r_dir/$name.png $percision
-	python3 $draw_script $a_dir/$name.txt $a_dir/$name.png $percision
-	python3 $draw_script $b_dir/$name.txt $b_dir/$name.png $percision
+        $b_dir/$name.txt $p_dir/$name.txt $sigma $min_percision $line
+#	python3 $draw_script $r_dir/$name.txt $r_dir/$name.png $percision
+#	python3 $draw_script $a_dir/$name.txt $a_dir/$name.png $percision
+#	python3 $draw_script $b_dir/$name.txt $b_dir/$name.png $percision
 	python3 $draw_script $p_dir/$name.txt $p_dir/$name.png
 	export i=$(($i+1))
 	echo $name

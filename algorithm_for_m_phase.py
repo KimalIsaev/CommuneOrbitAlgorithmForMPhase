@@ -1,9 +1,8 @@
 import sys
-from m_phase_n_execution import get_ABKI
+from m_phase_n_execution import m_phase_n_execution_get_ABKI
 from _four_matricies_to_diffusion_asymptotic import ffi, lib
+from math import ceil
 import numpy as np
-
-#def cffi_array_to_list:
     
 
 def python_square_matrix_to_cffi_array(m):
@@ -13,11 +12,11 @@ def python_square_matrix_to_cffi_array(m):
     result = ffi.new("double[]", len(line_from_square)) 
     for i, l in enumerate(line_from_square):
         result[i] = l
-    #print(list(result))
     return result
 
 def get_rabp(m, n, sigma, lam, qs, mus, r0, r2, x_n, percision):
-    A, B, K, I = get_ABKI(m, n, lam, qs, mus, r0, r2)
+    _qs = qs + [1 - sum(qs)]
+    A, B, K, I = m_phase_n_execution_get_ABKI(m, n, lam, r0, r2, _qs, mus)
     #print(A, B, K, I)
     matrix_dim = len(A)
     #print(matrix_dim)
@@ -25,8 +24,9 @@ def get_rabp(m, n, sigma, lam, qs, mus, r0, r2, x_n, percision):
     B_ptr = python_square_matrix_to_cffi_array(B)
     K_ptr = python_square_matrix_to_cffi_array(K)
     I_ptr = python_square_matrix_to_cffi_array(I)
-    true_n = x_n*percision
-    true_eps = sigma/percision
+    subdivisions = ceil(sigma/percision)
+    true_n = x_n*subdivisions
+    true_eps = sigma/subdivisions
     a_b = ffi.new("double[]", true_n)
     a = ffi.new("double[]", true_n)
     b = ffi.new("double[]", true_n)
@@ -37,10 +37,10 @@ def get_rabp(m, n, sigma, lam, qs, mus, r0, r2, x_n, percision):
         matrix_dim, true_n, true_eps)
     np_a_b = np.array([d 
         for i,d in enumerate(list(a_b))
-        if ((i % percision) == 0)])
+        if ((i % subdivisions) == 0)])
     np_b_ = np.array([d 
         for i,d in enumerate(list(b))
-        if ((i % percision) == 0)])
+        if ((i % subdivisions) == 0)])
     np_b = np.array(list(b))
     np_a = np.array(list(a))
     np_r = np.array(list(r))
@@ -87,7 +87,7 @@ def main():
             print("negative argument")
             return 1
     sigma_value = float(sys.argv[5])
-    percision = int(sys.argv[6])
+    percision = float(sys.argv[6])
     x_n = int(sys.argv[7])
     n = int(sys.argv[8])
     lambda_value = float(sys.argv[9])
